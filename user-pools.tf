@@ -101,6 +101,7 @@ resource "aws_cognito_user_pool" "main" {
   lambda_config {
     pre_sign_up         = var.pre_sign_up
     post_authentication = var.post_authentication
+    custom_message      = var.custom_message == "" ? null : var.custom_message
   }
 
   # Required attributes

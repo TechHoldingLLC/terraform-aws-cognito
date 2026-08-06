@@ -61,6 +61,12 @@ variable "callback_url" {
   default     = []
 }
 
+variable "custom_message" {
+  description = "Custom message AWS Lambda trigger - lets a Lambda supply the subject/body for Cognito-sent emails and SMS"
+  type        = string
+  default     = ""
+}
+
 variable "deletion_protection" {
   description = "DeletionProtection prevents accidental deletion of your user pool"
   type        = string

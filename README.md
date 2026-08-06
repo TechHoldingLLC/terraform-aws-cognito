@@ -44,6 +44,7 @@ No modules.
 | <a name="input_attributes_verification_before_update"></a> [attributes\_verification\_before\_update](#input\_attributes\_verification\_before\_update) | A list of attributes requiring verification before update | `list(string)` | `[]` | no |
 | <a name="input_auto_verified_attributes"></a> [auto\_verified\_attributes](#input\_auto\_verified\_attributes) | Attributes to be auto-verified | `list(string)` | `[]` | no |
 | <a name="input_callback_url"></a> [callback\_url](#input\_callback\_url) | List of allowed callback URLs for the identity providers | `list(string)` | `[]` | no |
+| <a name="input_custom_message"></a> [custom\_message](#input\_custom\_message) | Custom message AWS Lambda trigger - lets a Lambda supply the subject/body for Cognito-sent emails and SMS | `string` | `""` | no |
 | <a name="input_email_configuration"></a> [email\_configuration](#input\_email\_configuration) | Email configuartion | <pre>object({<br>    configuartion_set      = optional(string)<br>    email_sending_account  = optional(string)<br>    from_email_address     = optional(string)<br>    reply_to_email_address = optional(string)<br>    source_arn             = optional(string)<br>  })</pre> | `{}` | no |
 | <a name="input_enable_token_revocation"></a> [enable\_token\_revocation](#input\_enable\_token\_revocation) | Enables or disables token revocation | `bool` | `false` | no |
 | <a name="input_explicit_auth_flows"></a> [explicit\_auth\_flows](#input\_explicit\_auth\_flows) | List of authentication flows | `list(string)` | `[]` | no |

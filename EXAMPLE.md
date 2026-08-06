@@ -115,3 +115,24 @@ module "cognito" {
   }
 }
 ```
+
+## Sending Cognito emails through your own SES domain, with a custom template
+By default Cognito sends its own sign-up/forgot-password/etc. emails through its built-in sender
+(capped at 50/day, no SPF/DKIM). Switching `email_sending_account` to `DEVELOPER` routes them
+through your own verified SES identity instead. `custom_message` is optional on top of that - it
+lets a Lambda supply the actual subject/HTML for each of those emails (Cognito still sends the
+email itself; the Lambda only renders the content, via `event.response.emailSubject`/`emailMessage`).
+```
+module "cognito" {
+  source = "./cognito"
+  name   = "example-dev"
+
+  email_configuration = {
+    email_sending_account = "DEVELOPER"
+    from_email_address    = "no-reply@example.com"
+    source_arn            = "arn:aws:ses:us-west-2:123456789012:identity/example.com"
+  }
+
+  custom_message = "arn:aws:lambda:us-west-2:123456789012:function:example-cognito-custom-message"
+}
+```
