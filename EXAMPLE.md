@@ -91,3 +91,27 @@ module "cognito" {
   }
 }
 ```
+
+## Passkey / WebAuthn sign-in
+Lets users sign in with a passkey (Face ID, Touch ID, Windows Hello, or a physical security key)
+instead of, or alongside, a password. `sign_in_policy` controls which first factors are offered -
+`WEB_AUTHN` must be in that list for passkeys to actually work, and `explicit_auth_flows` needs
+`ALLOW_USER_AUTH` so the client can use the choice-based sign-in flow that offers them.
+```
+module "cognito" {
+  source = "./cognito"
+  name   = "example-dev"
+
+  explicit_auth_flows = [
+    "ALLOW_REFRESH_TOKEN_AUTH",
+    "ALLOW_USER_AUTH",
+  ]
+
+  sign_in_policy = ["PASSWORD", "WEB_AUTHN"]
+
+  web_authn_configuration = {
+    relying_party_id  = "example.com"   # domain the passkey is bound to
+    user_verification = "preferred"     # or "required" to force biometric/PIN, not just device possession
+  }
+}
+```

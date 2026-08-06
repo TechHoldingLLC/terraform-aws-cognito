@@ -69,6 +69,23 @@ resource "aws_cognito_user_pool" "main" {
     }
   }
 
+  dynamic "sign_in_policy" {
+    for_each = length(var.sign_in_policy) > 0 ? [true] : []
+
+    content {
+      allowed_first_auth_factors = var.sign_in_policy
+    }
+  }
+
+  dynamic "web_authn_configuration" {
+    for_each = length(var.web_authn_configuration) > 0 ? [var.web_authn_configuration] : []
+
+    content {
+      relying_party_id  = lookup(web_authn_configuration.value, "relying_party_id", null)
+      user_verification = lookup(web_authn_configuration.value, "user_verification", null)
+    }
+  }
+
   dynamic "email_configuration" {
     for_each = length(var.email_configuration) > 0 ? [var.email_configuration] : []
 

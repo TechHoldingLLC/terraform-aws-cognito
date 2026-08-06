@@ -203,6 +203,21 @@ variable "username_configuration" {
   default     = true
 }
 
+variable "sign_in_policy" {
+  description = "Sign-in methods allowed as the first authentication factor, e.g. [\"PASSWORD\", \"WEB_AUTHN\"]"
+  type        = list(string)
+  default     = []
+}
+
+variable "web_authn_configuration" {
+  description = "Passkey/WebAuthn configuration for the user pool"
+  type = object({
+    relying_party_id  = optional(string)
+    user_verification = optional(string)
+  })
+  default = {}
+}
+
 variable "verification_message_template" {
   description = "verification message template"
   type = object({
