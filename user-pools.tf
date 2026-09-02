@@ -57,7 +57,7 @@ resource "aws_cognito_user_pool" "main" {
   }
 
   dynamic "verification_message_template" {
-    for_each = length(var.verification_message_template) > 0 ? [var.verification_message_template] : []
+    for_each = var.verification_message_template == null ? [] : [var.verification_message_template]
 
     content {
       default_email_option  = lookup(verification_message_template.value, "default_email_option", "CONFIRM_WITH_CODE")
@@ -78,7 +78,7 @@ resource "aws_cognito_user_pool" "main" {
   }
 
   dynamic "web_authn_configuration" {
-    for_each = length(var.web_authn_configuration) > 0 ? [var.web_authn_configuration] : []
+    for_each = var.web_authn_configuration == null ? [] : [var.web_authn_configuration]
 
     content {
       relying_party_id  = lookup(web_authn_configuration.value, "relying_party_id", null)
@@ -87,7 +87,7 @@ resource "aws_cognito_user_pool" "main" {
   }
 
   dynamic "email_configuration" {
-    for_each = length(var.email_configuration) > 0 ? [var.email_configuration] : []
+    for_each = var.email_configuration == null ? [] : [var.email_configuration]
 
     content {
       configuration_set      = lookup(email_configuration.value, "configuration_set", null)

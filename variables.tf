@@ -82,7 +82,7 @@ variable "email_configuration" {
     reply_to_email_address = optional(string)
     source_arn             = optional(string)
   })
-  default = {}
+  default = null
 }
 
 variable "enable_token_revocation" {
@@ -221,7 +221,7 @@ variable "web_authn_configuration" {
     relying_party_id  = optional(string)
     user_verification = optional(string)
   })
-  default = {}
+  default = null
 }
 
 variable "verification_message_template" {
@@ -234,5 +234,5 @@ variable "verification_message_template" {
     email_subject_by_link = optional(string)
     sms_message           = optional(string)
   })
-  default = {}
+  default = null
 }
