@@ -73,6 +73,12 @@ variable "deletion_protection" {
   default     = "ACTIVE"
 }
 
+variable "user_pool_tier" {
+  description = "Feature plan for the pool: LITE, ESSENTIALS or PLUS. Passkeys need ESSENTIALS or PLUS"
+  type        = string
+  default     = null
+}
+
 variable "email_configuration" {
   description = "Email configuartion"
   type = object({

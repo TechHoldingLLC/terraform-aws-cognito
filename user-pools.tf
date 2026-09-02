@@ -7,6 +7,7 @@ resource "random_password" "external_id" {
 resource "aws_cognito_user_pool" "main" {
   name                     = var.name
   deletion_protection      = var.deletion_protection
+  user_pool_tier           = var.user_pool_tier
   username_attributes      = var.username_attributes
   auto_verified_attributes = var.auto_verified_attributes
   mfa_configuration        = var.mfa_configuartion
