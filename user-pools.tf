@@ -99,10 +99,18 @@ resource "aws_cognito_user_pool" "main" {
     }
   }
 
-  lambda_config {
-    pre_sign_up         = var.pre_sign_up
-    post_authentication = var.post_authentication
-    custom_message      = var.custom_message == "" ? null : var.custom_message
+  # Dynamic: lambda_config is optional in Cognito, so a static block diffs forever when unset.
+  dynamic "lambda_config" {
+    for_each = length([
+      for arn in [var.pre_sign_up, var.post_authentication, var.custom_message] :
+      arn if arn != null && arn != ""
+    ]) > 0 ? [true] : []
+
+    content {
+      pre_sign_up         = var.pre_sign_up == null || var.pre_sign_up == "" ? null : var.pre_sign_up
+      post_authentication = var.post_authentication == null || var.post_authentication == "" ? null : var.post_authentication
+      custom_message      = var.custom_message == null || var.custom_message == "" ? null : var.custom_message
+    }
   }
 
   # Required attributes
