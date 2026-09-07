@@ -7,6 +7,7 @@ resource "random_password" "external_id" {
 resource "aws_cognito_user_pool" "main" {
   name                     = var.name
   deletion_protection      = var.deletion_protection
+  user_pool_tier           = var.user_pool_tier
   username_attributes      = var.username_attributes
   auto_verified_attributes = var.auto_verified_attributes
   mfa_configuration        = var.mfa_configuartion
@@ -57,7 +58,7 @@ resource "aws_cognito_user_pool" "main" {
   }
 
   dynamic "verification_message_template" {
-    for_each = length(var.verification_message_template) > 0 ? [var.verification_message_template] : []
+    for_each = var.verification_message_template == null ? [] : [var.verification_message_template]
 
     content {
       default_email_option  = lookup(verification_message_template.value, "default_email_option", "CONFIRM_WITH_CODE")
@@ -69,8 +70,25 @@ resource "aws_cognito_user_pool" "main" {
     }
   }
 
+  dynamic "sign_in_policy" {
+    for_each = length(var.sign_in_policy) > 0 ? [true] : []
+
+    content {
+      allowed_first_auth_factors = var.sign_in_policy
+    }
+  }
+
+  dynamic "web_authn_configuration" {
+    for_each = var.web_authn_configuration == null ? [] : [var.web_authn_configuration]
+
+    content {
+      relying_party_id  = lookup(web_authn_configuration.value, "relying_party_id", null)
+      user_verification = lookup(web_authn_configuration.value, "user_verification", null)
+    }
+  }
+
   dynamic "email_configuration" {
-    for_each = length(var.email_configuration) > 0 ? [var.email_configuration] : []
+    for_each = var.email_configuration == null ? [] : [var.email_configuration]
 
     content {
       configuration_set      = lookup(email_configuration.value, "configuration_set", null)
@@ -81,9 +99,18 @@ resource "aws_cognito_user_pool" "main" {
     }
   }
 
-  lambda_config {
-    pre_sign_up         = var.pre_sign_up
-    post_authentication = var.post_authentication
+  # Dynamic: lambda_config is optional in Cognito, so a static block diffs forever when unset.
+  dynamic "lambda_config" {
+    for_each = length([
+      for arn in [var.pre_sign_up, var.post_authentication, var.custom_message] :
+      arn if arn != null && arn != ""
+    ]) > 0 ? [true] : []
+
+    content {
+      pre_sign_up         = var.pre_sign_up == null || var.pre_sign_up == "" ? null : var.pre_sign_up
+      post_authentication = var.post_authentication == null || var.post_authentication == "" ? null : var.post_authentication
+      custom_message      = var.custom_message == null || var.custom_message == "" ? null : var.custom_message
+    }
   }
 
   # Required attributes

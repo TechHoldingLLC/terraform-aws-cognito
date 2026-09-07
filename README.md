@@ -44,6 +44,7 @@ No modules.
 | <a name="input_attributes_verification_before_update"></a> [attributes\_verification\_before\_update](#input\_attributes\_verification\_before\_update) | A list of attributes requiring verification before update | `list(string)` | `[]` | no |
 | <a name="input_auto_verified_attributes"></a> [auto\_verified\_attributes](#input\_auto\_verified\_attributes) | Attributes to be auto-verified | `list(string)` | `[]` | no |
 | <a name="input_callback_url"></a> [callback\_url](#input\_callback\_url) | List of allowed callback URLs for the identity providers | `list(string)` | `[]` | no |
+| <a name="input_custom_message"></a> [custom\_message](#input\_custom\_message) | Custom message AWS Lambda trigger - lets a Lambda supply the subject/body for Cognito-sent emails and SMS | `string` | `""` | no |
 | <a name="input_email_configuration"></a> [email\_configuration](#input\_email\_configuration) | Email configuartion | <pre>object({<br>    configuartion_set      = optional(string)<br>    email_sending_account  = optional(string)<br>    from_email_address     = optional(string)<br>    reply_to_email_address = optional(string)<br>    source_arn             = optional(string)<br>  })</pre> | `{}` | no |
 | <a name="input_enable_token_revocation"></a> [enable\_token\_revocation](#input\_enable\_token\_revocation) | Enables or disables token revocation | `bool` | `false` | no |
 | <a name="input_explicit_auth_flows"></a> [explicit\_auth\_flows](#input\_explicit\_auth\_flows) | List of authentication flows | `list(string)` | `[]` | no |
@@ -60,6 +61,7 @@ No modules.
 | <a name="input_require_symbols"></a> [require\_symbols](#input\_require\_symbols) | Whether you have required users to use at least one symbol in their password | `bool` | `true` | no |
 | <a name="input_require_uppercase"></a> [require\_uppercase](#input\_require\_uppercase) | Whether you have required users to use at least one uppercase letter in their password | `bool` | `true` | no |
 | <a name="input_schema"></a> [schema](#input\_schema) | schema attributes of a user pool | `list(any)` | `[]` | no |
+| <a name="input_sign_in_policy"></a> [sign\_in\_policy](#input\_sign\_in\_policy) | Sign-in methods allowed as the first authentication factor, e.g. ["PASSWORD", "WEB\_AUTHN"] | `list(string)` | `[]` | no |
 | <a name="input_sms_configuration"></a> [sms\_configuration](#input\_sms\_configuration) | Enable sms configuration | `bool` | `false` | no |
 | <a name="input_supported_identity_providers"></a> [supported\_identity\_providers](#input\_supported\_identity\_providers) | List of provider names for the identity providers that are supported on this client | `list(string)` | `[]` | no |
 | <a name="input_temporary_password_validity_days"></a> [temporary\_password\_validity\_days](#input\_temporary\_password\_validity\_days) | number of days a temporary password is valid | `number` | `7` | no |
@@ -67,6 +69,7 @@ No modules.
 | <a name="input_username_attributes"></a> [username\_attributes](#input\_username\_attributes) | Whether email addresses or phone numbers can be specified as usernames when a user signs up | `list(string)` | `[]` | no |
 | <a name="input_username_configuration"></a> [username\_configuration](#input\_username\_configuration) | Whether username case sensitivity will be applied for all users in the user pool through Cognito APIs | `bool` | `true` | no |
 | <a name="input_verification_message_template"></a> [verification\_message\_template](#input\_verification\_message\_template) | verification message template | <pre>object({<br>    default_email_option  = optional(string)<br>    email_subject         = optional(string)<br>    email_message         = optional(string)<br>    email_message_by_link = optional(string)<br>    email_subject_by_link = optional(string)<br>    sms_message           = optional(string)<br>  })</pre> | `{}` | no |
+| <a name="input_web_authn_configuration"></a> [web\_authn\_configuration](#input\_web\_authn\_configuration) | Passkey/WebAuthn configuration for the user pool | <pre>object({<br>    relying_party_id = optional(string)<br>    user_verification = optional(string)<br>  })</pre> | `{}` | no |
 
 ## Outputs
 

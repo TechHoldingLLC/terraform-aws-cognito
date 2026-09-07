@@ -61,10 +61,22 @@ variable "callback_url" {
   default     = []
 }
 
+variable "custom_message" {
+  description = "Custom message AWS Lambda trigger - lets a Lambda supply the subject/body for Cognito-sent emails and SMS"
+  type        = string
+  default     = ""
+}
+
 variable "deletion_protection" {
   description = "DeletionProtection prevents accidental deletion of your user pool"
   type        = string
   default     = "ACTIVE"
+}
+
+variable "user_pool_tier" {
+  description = "Feature plan for the pool: LITE, ESSENTIALS or PLUS. Passkeys need ESSENTIALS or PLUS"
+  type        = string
+  default     = null
 }
 
 variable "email_configuration" {
@@ -76,7 +88,7 @@ variable "email_configuration" {
     reply_to_email_address = optional(string)
     source_arn             = optional(string)
   })
-  default = {}
+  default = null
 }
 
 variable "enable_token_revocation" {
@@ -203,6 +215,21 @@ variable "username_configuration" {
   default     = true
 }
 
+variable "sign_in_policy" {
+  description = "Sign-in methods allowed as the first authentication factor, e.g. [\"PASSWORD\", \"WEB_AUTHN\"]"
+  type        = list(string)
+  default     = []
+}
+
+variable "web_authn_configuration" {
+  description = "Passkey/WebAuthn configuration for the user pool"
+  type = object({
+    relying_party_id  = optional(string)
+    user_verification = optional(string)
+  })
+  default = null
+}
+
 variable "verification_message_template" {
   description = "verification message template"
   type = object({
@@ -213,5 +240,5 @@ variable "verification_message_template" {
     email_subject_by_link = optional(string)
     sms_message           = optional(string)
   })
-  default = {}
+  default = null
 }
